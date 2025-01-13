@@ -214,6 +214,47 @@
                 <div class="col-sm-6 md-margin-bottom-20">
                     <div class="panel panel-profile no-bg">
                         <div class="panel-heading overflow-h">
+                            <h2 class="panel-title heading-sm pull-left"><i class="fa fa-bullhorn"></i>Clock In</h2>
+                        </div>
+                        <div id="scrollbar2" class="panel-body contentHolder">
+							<form action="{{route('employee.attendance')}}" method="post">
+								@csrf()
+								<div class="form-group">
+									<label for="date">Attendance</label>
+									<select name="status" class="form-control">
+										<option value="present">Present</option>
+										<option value="work_from_home">Work From Home</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="date">Tasks for Work from Home</label>
+									<textarea name="reason" class="form-control" placeholder="Tasks for Work from Home"></textarea>
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary">Clock In Attendance</button>
+								</div>
+							</form>
+                        </div>
+                    </div>
+                    <div class="panel panel-profile no-bg">
+                        <div class="panel-heading overflow-h">
+                            <h2 class="panel-title heading-sm pull-left"><i class="fa fa-bullhorn"></i>Clock Out</h2>
+                        </div>
+                        <div id="scrollbar2" class="panel-body contentHolder">
+							<form action="{{route('employee.clockout')}}" method="post">
+								@csrf()
+								<div class="form-group">
+									<label for="date">Completed Tasks for Work from Home</label>
+									<textarea name="reason" class="form-control" placeholder="Tasks for Work from Home"></textarea>
+								</div>
+								<div class="form-group">
+									<button type="submit" class="btn btn-primary">Clock Out Attendance</button>
+								</div>
+							</form>
+                        </div>
+                    </div>
+                    <div class="panel panel-profile no-bg">
+                        <div class="panel-heading overflow-h">
                             <h2 class="panel-title heading-sm pull-left"><i class="fa fa-bullhorn"></i>Notice Board</h2>
                         </div>
                         <div id="scrollbar2" class="panel-body contentHolder">

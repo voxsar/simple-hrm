@@ -23,14 +23,14 @@ class CreateAttendanceTable extends Migration {
       			  ->onUpdate('cascade')
       			  ->onDelete('cascade');
 
-      		$table->date('date');
-            $table->enum('status',array('absent','present'));
+      		$table->datetime('date');
+            $table->string('status');
             $table->string('leaveType',100)->nullable();
             $table->string('halfDayType',100)->nullable();
 
       		$table->text('reason')->nullable();
             $table->enum('application_status',array('approved','rejected','pending'))->nullable();
-            $table->date('applied_on')->nullable();
+            $table->datetime('applied_on')->nullable();
 			$table->string('updated_by',100)->nullable();
 
             $table->index('leaveType');
@@ -51,7 +51,7 @@ class CreateAttendanceTable extends Migration {
 				->onUpdate('cascade')
 				->onDelete('cascade');
 
-            $table->unique(['employeeID','date']);
+            $table->unique(['employeeID','date', 'status']);
 
 
 			$table->timestamps();

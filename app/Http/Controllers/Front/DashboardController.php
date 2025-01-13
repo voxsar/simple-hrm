@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\View;
+//request
+use Illuminate\Http\Request;
 
 /**
  * Class DashboardController
@@ -88,6 +90,66 @@ class DashboardController extends BaseController
         return View::make('front.employeeDashboard', $this->data);
     }
 
+	public function attendance(Request $request)
+	{
+		//mark attendance
+		$attendance = Attendance::where('employeeID', '=', $this->employeeID)
+			->whereYear('date', '=', date('Y'))
+			->whereMonth('date', '=', date('m'))
+			->whereDay('date', '=', date('d'))
+			->first();
+
+		if ($attendance) {
+			return Reply::error('Attendance already marked for today');
+		} else {
+			$attendance = Attendance::create([
+				'employeeID' => $this->employeeID,
+				'date' => Carbon::now(),
+				'status' => $request->status,
+				'reason' => $request->reason,
+				'application_status' => 'approved',
+				'applied_on' => date('Y-m-d', time())
+			]);
+		}
+		return $attendance;
+	}
+
+	public function clockout(Request $request)
+	{
+		//mark attendance
+		$attendance = Attendance::where('employeeID', '=', $this->employeeID)
+			->whereYear('date', '=', date('Y'))
+			->whereMonth('date', '=', date('m'))
+			->whereDay('date', '=', date('d'))
+			->where('status', '!=', 'clockout')
+			->first();
+
+		$attendanceE = Attendance::where('employeeID', '=', $this->employeeID)
+			->whereYear('date', '=', date('Y'))
+			->whereMonth('date', '=', date('m'))
+			->whereDay('date', '=', date('d'))
+			->where('status', '=', 'clockout')
+			->first();
+
+		if ($attendance) {
+			
+			if($attendanceE != null && $attendanceE->count() > 0){
+				return Reply::error('Attendance already clocked out for today');
+			}
+			$attendance = Attendance::create([
+				'employeeID' => $this->employeeID,
+				'date' => Carbon::now(),
+				'status' => 'clockout',
+				'reason' => $request->reason,
+				'application_status' => 'approved',
+				'applied_on' => date('Y-m-d', time())
+			]);
+		} else {
+			return Reply::error('Attendance already clocked out for today');
+		}
+		return back();
+	}
+	
     // Show leave Page
 
     /**

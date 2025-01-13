@@ -1,4 +1,5 @@
 <?php
+use App\Http\Controllers\Front\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,9 @@ Route::group(['middleware' => ['auth.employees'],'namespace' => 'Front'], functi
     Route::post('dashboard/notice/{id}',['as'=>'front.notice_ajax','uses'=>'DashboardController@notice_ajax']);
 
     Route::post('leave_store',['as'=>'front.leave_store','uses'=>'DashboardController@leave_store']);
+
+    Route::post('attendance', [DashboardController::class, 'attendance'])->name("employee.attendance");
+    Route::post('clockout', [DashboardController::class, 'clockout'])->name("employee.clockout");
 
 
     Route::resource('dashboard','DashboardController');
